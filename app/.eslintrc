@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:vue/vue3-essential",
+    "standard-with-typescript",
+    "prettier"
+  ],
+  "overrides": [],
+  "parser": "vue-eslint-parser",
+  "ignorePatterns": ["*.scss"],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": "latest",
+    "project": "tsconfig.eslint.json",
+    "extraFileExtensions": [".vue"],
+    "sourceType": "module"
+  },
+  "plugins": ["vue"],
+  "rules": {
+    "n/no-path-concat": "off",
+    "@typescript-eslint/triple-slash-reference": "off",
+    "vue/multi-word-component-names": "off"
+  }
+}
