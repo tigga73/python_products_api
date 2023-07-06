@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from flask_restx import fields
 from flask_restx import Resource, reqparse
@@ -6,6 +7,7 @@ from models.produto_model import ProdutoModel
 import uuid
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app, version='1.0', title='API produtos',
@@ -35,7 +37,7 @@ class Produtos(Resource):
     @ns.doc('lista_produtos')
     def get(self):
         produtos = ProdutoModel.query.all()
-        return {'produtos': [produto.json_parse() for produto in produtos]}
+        return [produto.json_parse() for produto in produtos]
 
     @ns.doc('cria_produto')
     @ns.expect(produto_modelo)
