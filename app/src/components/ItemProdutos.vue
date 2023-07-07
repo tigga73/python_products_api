@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { Produto } from '@/types/Produto';
 
-defineProps<{
+const props = defineProps<{
   produto: Produto;
 }>();
+
+const emit = defineEmits<{
+  (event: 'deletarProduto', idProduto: string): void;
+}>();
+
+function handleClick() {
+  emit('deletarProduto', props.produto.id);
+}
 </script>
 
 <template>
@@ -13,11 +21,15 @@ defineProps<{
     <td>{{ produto.marca }}</td>
     <td>{{ produto.preco }}</td>
     <td class="is-flex is-justify-content-center">
-      <span class="icon">
+      <span class="icon" @click="handleClick">
         <i class="fas fa-trash"></i>
       </span>
     </td>
   </tr>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped>
+span.icon:hover {
+  cursor: pointer;
+}
+</style>

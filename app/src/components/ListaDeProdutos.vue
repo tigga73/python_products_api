@@ -2,14 +2,27 @@
 import { useProdutoStore } from '@/stores/produtoStore';
 import ItemProdutos from './ItemProdutos.vue';
 import { storeToRefs } from 'pinia';
+import { Produto } from '@/types/Produto';
+import { onMounted } from 'vue';
 
 const produtoStore = useProdutoStore();
-await produtoStore.fetchProdutos();
 
 const { produtos } = storeToRefs(produtoStore);
+
+async function handleDeletarProduto(id: string) {
+  await produtoStore.deletarProduto(id);
+  await produtoStore.obterProdutos();
+}
+
+onMounted(async () => {
+  await produtoStore.obterProdutos();
+});
 </script>
 
 <template>
+  <div class="title">
+    <h1 class="title has-text-centered">Todos os Produtos</h1>
+  </div>
   <table class="table is-striped is-fullwidth">
     <thead>
       <tr>
@@ -25,9 +38,13 @@ const { produtos } = storeToRefs(produtoStore);
         v-for="produto in produtos"
         :key="produto.id"
         :produto="produto"
+        @deletar-produto="handleDeletarProduto"
       />
     </tbody>
   </table>
+  <RouterLink to="/NovoProduto" class="button is-link">
+    Adicionar Produto
+  </RouterLink>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped></style>
